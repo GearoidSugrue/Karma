@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <allegro.h>
 
+#include <main.h>
+
 int main(int argc, char **argv){
 
    ALLEGRO_DISPLAY *display = NULL;
