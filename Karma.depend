@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1417203446 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
+	<iostream>
+	<stdio.h>
+	<allegro.h>
+
