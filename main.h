@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <allegro.h>
 
-class main() {
+class main {
 
     private:
 
@@ -14,7 +14,7 @@ class main() {
 
 
 
-}
+};
 
 
 #endif // MAIN_H_INCLUDED
