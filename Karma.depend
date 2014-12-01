@@ -1,5 +1,15 @@
 # depslib dependency file v1.0
-1417203446 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
+1417392433 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
+	<iostream>
+	<stdio.h>
+	<allegro.h>
+	<allegro_native_dialog.h>
+	<allegro_ttf.h>
+	<allegro_font.h>
+	<allegro_primitives.h>
+	"main.h"
+
+1417207398 /home/gearoid/Documents/Code Blocks Projects/Karma/main.h
 	<iostream>
 	<stdio.h>
 	<allegro.h>
