@@ -37,7 +37,7 @@ int state = NULL;
 
 ALLEGRO_BITMAP *tileset;
 
-struct Player//change to character????
+struct Character//change to character????
 {
     float x, y;
     int dir, sourceX, sourceY;
@@ -48,6 +48,27 @@ struct Camera
 {
     float x, y, fade;
     ALLEGRO_TRANSFORM transform;
+};
+
+struct Sprite
+{
+	float x;
+	float y;
+	float velX;
+	float velY;
+	int dirX;
+	int dirY;
+
+	int maxFrame;
+	int curFrame;
+	int frameCount;
+	int frameDelay;
+	int frameWidth;
+	int frameHeight;
+	int animationColumns;
+	int animationDirection;
+
+	ALLEGRO_BITMAP *image;
 };
 
 void LoadMap(const char *filename, std::vector< std::vector<int> > &worldMap);
@@ -155,7 +176,7 @@ int main(int argc, char **argv){
     al_register_event_source(event_queue, al_get_timer_event_source(catTimer));
     al_register_event_source(event_queue, al_get_mouse_event_source());
 
-    //al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW | ALLEGRO_NOFRAME) ; //comment this in later
+    // use other one//al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW | ALLEGRO_NOFRAME) ; //comment this in later
     al_hide_mouse_cursor(display);//Hides the mouse cursor so we can use our own cursor
 
     float x = 100, y = 300, moveSpeed = 5, mX = NULL, mY = NULL, velX = 0, velY = 0, jumpSpeed = 15;
@@ -166,7 +187,7 @@ int main(int argc, char **argv){
 
     const float gravity = 1;
 
-    Player _player;
+    Character _player;
     Camera _camera;
 
     _player.x = x;
@@ -218,17 +239,17 @@ int main(int argc, char **argv){
                 velX = moveSpeed;
 
                 //Put proper collision checker here
-                if(Collision(_player.x, _player.y, 400, 400, 80, 120, 75, al_get_bitmap_height(cat)))
+                if(Collision(_player.x, _player.y, 530, 190, 80, 120, 75, al_get_bitmap_height(cat)))
                     playSound = true ;
             }
             else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
             {
                 if(_player.x > 0)  //Stops the player going left
-                    //_player.x -= moveSpeed;
+                {//_player.x -= moveSpeed;
                     velX = -moveSpeed;
-
+                }
                 //Put proper collision checker here
-                if(Collision(_player.x, _player.y, 400, 400, 80, 120, 75, al_get_bitmap_height(cat)))
+                if(Collision(_player.x, _player.y, 530, 190, 80, 120, 75, al_get_bitmap_height(cat)))
                     playSound = true ;
             }
             else
@@ -241,6 +262,7 @@ int main(int argc, char **argv){
             {
                 velY = -jumpSpeed;
                 jump = false;
+                //Put some collision dectection here
             }
             else if(al_key_down(&keyState, ALLEGRO_KEY_L)) //Reloads the map. Used to helps create the map.
             {
@@ -319,10 +341,11 @@ int main(int argc, char **argv){
         //Draw objects and NPCs
 
         al_draw_text(font, electricBlue, 40, 25, NULL, "This is sample text");
-        al_draw_filled_rectangle(_player.x, _player.y, _player.x + 80, _player.y + 120, electricBlue) ; //player
         al_draw_filled_triangle( mX,mY ,mX+17,mY, mX,mY+17,electricBlue) ; //mouse cursor
             //dir = NULL;
-        al_draw_bitmap_region(cat, sourceX, 0, 75, 75, 400, 400, NULL);
+        al_draw_bitmap_region(cat, sourceX, 0, 75, 75, 530, 190, NULL);
+        al_draw_filled_rectangle(_player.x, _player.y, _player.x + 80, _player.y + 120, electricBlue) ; //player
+
 
         //ALLEGRO_BITMAP *subBitMap = al_create_sub_bitmap(clonedBitmap, sourceX, 0, 75, 75 ) ;//Works like region
         //al_draw_tinted_bitmap(subBitMap, al_map_rgb(255, 0, 0), 300, 300, NULL);
