@@ -377,7 +377,7 @@ int main(int argc, char **argv){
     //delete [] worldMap;
 
     al_destroy_bitmap(cat);
-    al_destroy_bitmap(clonedBitmap);
+    //al_destroy_bitmap(clonedBitmap);
     al_destroy_bitmap(blackFader);
     al_destroy_sample(soundEffect);
     al_destroy_font(font);
