@@ -8,7 +8,11 @@
 #include <allegro_image.h>
 #include <allegro_audio.h>
 #include <allegro_acodec.h>
+#include <fstream>
 #include <vector>
+#include <sstream>
+#include <string>
+
 
 #include <cmath>
 
@@ -20,7 +24,18 @@ using namespace std;
 #define ScreenHeight 500
 #define FPS 60
 #define frameFPS 9
+#define BlockSize 70
+
 //#define fade 25
+
+int fade = 35, loadCounterX = 0, loadCounterY = 0, mapSizeX, mapSizeY ;
+//int map ;
+
+enum LoadState { TileSet, Map} ;
+
+int state = NULL;
+
+ALLEGRO_BITMAP *tileset;
 
 struct Player//change to character????
 {
@@ -34,6 +49,8 @@ struct Camera
     float x, y, fade;
     ALLEGRO_TRANSFORM transform;
 };
+
+void LoadMap(const char *filename, std::vector< std::vector<int> > &worldMap);
 
 bool Collision(float playerX, float playerY, float eX, float eY, int playerWidth, int playerHeight, int eWidth, int eHeight)
 {
@@ -62,7 +79,8 @@ void CameraUpdate(float *cameraPosition, float x, float y, int width, int height
 
 }
 
-int fade = 25;
+
+void DrawMap(std::vector< std::vector<int> > worldMap);
 
 int main(int argc, char **argv){
 
@@ -140,12 +158,13 @@ int main(int argc, char **argv){
     //al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW | ALLEGRO_NOFRAME) ; //comment this in later
     al_hide_mouse_cursor(display);//Hides the mouse cursor so we can use our own cursor
 
-    float x = 100, y = 350, moveSpeed = 5, mX = NULL, mY = NULL;
+    float x = 100, y = 300, moveSpeed = 5, mX = NULL, mY = NULL, velX = 0, velY = 0, jumpSpeed = 15;
     float cameraPos[2] = {0, 0} ;
-    bool done = false;
-    bool redraw = true, playSound = false;
-    int dir = NULL, sourceX = 0, sourceY = 0, time6 = 0;
-    bool playerClickedLeft = false, playerClickedRight = false, active = false;
+    bool done = false, redraw = true, playSound = false;
+    bool jump = false, playerClickedLeft = false, playerClickedRight = false, active = false;
+    int dir = NULL, sourceX = 0, sourceY = 0 ;
+
+    const float gravity = 1;
 
     Player _player;
     Camera _camera;
@@ -154,13 +173,14 @@ int main(int argc, char **argv){
     _player.y = y;
     _camera.fade = fade ;
 
-
+    //BITMAPS
     ALLEGRO_BITMAP *cat = al_load_bitmap("Cat3.png");
     ALLEGRO_BITMAP *clonedBitmap = al_clone_bitmap(cat);//Clones a bitmap
     ALLEGRO_BITMAP *blackFader = al_load_bitmap("BlackFade.png");
 
+    std::vector< std::vector<int> > worldMap;
 
-
+    LoadMap("Map1.txt", worldMap); //int* worldMap = LoadMap("Map1.txt");//Reads in from the map txt file
 
     //Game loop
     al_start_timer(timer);
@@ -194,7 +214,8 @@ int main(int argc, char **argv){
             al_get_keyboard_state(&keyState);
             if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
             {
-                _player.x += moveSpeed;
+                //_player.x += moveSpeed;
+                velX = moveSpeed;
 
                 //Put proper collision checker here
                 if(Collision(_player.x, _player.y, 400, 400, 80, 120, 75, al_get_bitmap_height(cat)))
@@ -202,15 +223,43 @@ int main(int argc, char **argv){
             }
             else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
             {
-                if(x > 0)  //Stops the player going left
-                    _player.x -= moveSpeed;
+                if(_player.x > 0)  //Stops the player going left
+                    //_player.x -= moveSpeed;
+                    velX = -moveSpeed;
 
                 //Put proper collision checker here
                 if(Collision(_player.x, _player.y, 400, 400, 80, 120, 75, al_get_bitmap_height(cat)))
                     playSound = true ;
             }
             else
+            {
+                velX = 0;
                _player.active = false; //nothing happened(e.g. No key presses)
+            }
+
+            if(al_key_down(&keyState, ALLEGRO_KEY_UP) && jump)
+            {
+                velY = -jumpSpeed;
+                jump = false;
+            }
+            else if(al_key_down(&keyState, ALLEGRO_KEY_L)) //Reloads the map. Used to helps create the map.
+            {
+                worldMap.clear();
+                LoadMap("Map1.txt", worldMap);
+            }
+
+            if(!jump)
+                velY += gravity;
+            else
+                velY += 0;
+
+            _player.x += velX;
+            _player.y += velY;
+
+            jump = (_player.y >= 300);
+
+            if(jump)
+                _player.y = 300;
 
             //_player.x = x;
             //_player.y = y;
@@ -261,6 +310,8 @@ int main(int argc, char **argv){
     if(redraw)
     {
         al_clear_to_color(al_map_rgb(255,255,255));
+        DrawMap(worldMap);
+
                 //al_draw_bitmap(cat, mX+20, mY+20, NULL);
 
         //Draw text function
@@ -273,22 +324,21 @@ int main(int argc, char **argv){
             //dir = NULL;
         al_draw_bitmap_region(cat, sourceX, 0, 75, 75, 400, 400, NULL);
 
-        ALLEGRO_BITMAP *subBitMap = al_create_sub_bitmap(clonedBitmap, sourceX, 0, 75, 75 ) ;//Works like region
-        al_draw_tinted_bitmap(subBitMap, al_map_rgb(255, 0, 0), 300, 300, NULL);
+        //ALLEGRO_BITMAP *subBitMap = al_create_sub_bitmap(clonedBitmap, sourceX, 0, 75, 75 ) ;//Works like region
+        //al_draw_tinted_bitmap(subBitMap, al_map_rgb(255, 0, 0), 300, 300, NULL);
         //al_draw_scaled_bitmap(subBitMap,
         //al_draw_bitmap_region(subBitMap, 0, 0, 75, 75, 300, 300, NULL);
         //al_draw_bitmap_region(subBitMap, sourceX, 0, 75, 75, 300, 300, NULL);
 
         al_draw_tinted_bitmap(blackFader, al_map_rgba(0, 0, 0, fade), 0, 0, NULL); //turns the creen greyer
 
-
         al_flip_display();
         redraw = false;
         playerClickedLeft = false;
         playerClickedRight = false;
-        al_destroy_bitmap(subBitMap);
+        //al_destroy_bitmap(subBitMap);
     }
-    if(playSound)
+    if(playSound) //do this better
     {
         al_play_sample(soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 
@@ -301,6 +351,8 @@ int main(int argc, char **argv){
 
     //Destroy + end game
 
+    //delete [] worldMap;
+
     al_destroy_bitmap(cat);
     al_destroy_bitmap(clonedBitmap);
     al_destroy_bitmap(blackFader);
@@ -312,3 +364,113 @@ int main(int argc, char **argv){
     al_destroy_timer(catTimer);
    return 0;
 }
+
+void LoadMap(const char *filename, std::vector< std::vector<int> > &worldMap)
+{
+    std::ifstream openfile(filename) ;
+    if(openfile.is_open())
+    {
+        std::string line, value ;
+        int space;
+
+        //line.erase(std::remove(line.begin(), line.end(), ' '), line.end());
+
+        //mapSizeX = line.length();
+
+        //openfile.seekg(0, std::ios::beg);
+
+
+        //openfile >> mapSizeX >> mapSizeY;
+        //int worldMap[mapSizeX][mapSizeY] ;
+
+        //int** ary = new int*[mapSizeY];
+        //for(int i = 0; i < mapSizeY; ++i)
+        //    ary[i] = new int[mapSizeX];
+
+        //int *ary = new int[mapSizeX*mapSizeY];
+        //ary[i*mapSizeY+j] // ary[i][j]
+
+        while(!openfile.eof())
+        {
+            std::getline(openfile, line);
+
+            if(line.find("[TileSet]") != std::string::npos)
+            {
+                state = TileSet;
+                continue; //skips the rest of the loop and goes back to the top of the loop.
+            }
+            else if (line.find("[Map]") != std::string::npos)
+            {
+                state = Map;
+                continue;
+            }
+
+            switch(state)
+            {
+            case TileSet:
+                if(line.length() > 0)
+                    tileset = al_load_bitmap(line.c_str());
+                break;
+            case Map:
+                std::stringstream str (line);
+                std::vector<int> tempVector;
+
+                while(!str.eof())
+                {
+                    std::getline(str, value, ' ');
+                    if(value.length() > 0)
+                        tempVector.push_back(atoi(value.c_str()));
+                }
+                worldMap.push_back(tempVector);
+                break;
+
+
+            //openfile >> ary[loadCounterX*mapSizeY + loadCounterY] ;//ary[loadCounterX][loadCounterY] ;   //worldMap[loadCounterX][loadCounterY] ;
+            //loadCounterX++;
+            //if(loadCounterX >= mapSizeX)
+            //{
+            //    loadCounterX = 0;
+            //    loadCounterY++;
+            //}
+                }
+        mapSizeY = loadCounterY ;
+        }
+       // return ary ;
+    }
+    else
+    {
+        //return NULL ;
+    }
+    //return NULL ;
+}
+
+void DrawMap(std::vector< std::vector<int> > worldMap)//int worldMap[])
+{
+    int value ;
+
+    for(int i = 0; i < worldMap.size(); i++)
+    {
+        for(int j = 0; j < worldMap[i].size(); j++)
+        {
+            al_draw_bitmap_region(tileset, worldMap[i][j] * BlockSize, 0,
+                BlockSize, BlockSize, j * BlockSize, i * BlockSize, NULL);
+
+
+
+
+
+
+            //value = worldMap[i][j];//worldMap[i*mapSizeY+j] ;
+
+            //if(value == 0)
+           //     al_draw_filled_rectangle(j * BlockSize, i * BlockSize, j * BlockSize+BlockSize,
+            //        i * BlockSize+BlockSize, al_map_rgb(204, 229, 255));
+           // else if(value == 1)
+           //     al_draw_filled_rectangle(j * BlockSize, i * BlockSize, j * BlockSize+BlockSize,
+            //        i * BlockSize+BlockSize, al_map_rgb(0, 153, 0));
+        }
+    }
+}
+
+
+

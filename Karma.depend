@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1417905622 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
+1417933569 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
 	<iostream>
 	<stdio.h>
 	<allegro.h>
@@ -10,7 +10,10 @@
 	<allegro_image.h>
 	<allegro_audio.h>
 	<allegro_acodec.h>
+	<fstream>
 	<vector>
+	<sstream>
+	<string>
 	<cmath>
 	"main.h"
 
