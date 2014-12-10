@@ -17,6 +17,7 @@
 //#include "include/Game.h"
 #include "ScreenManager.h"
 #include "InputManager.h"
+#include "EndScreen.h"
 //#include "ScreenManager.h"
 
 
@@ -27,8 +28,8 @@ using namespace std;
 
 #include "main.h"
 
-#define ScreenWidth 800
-#define ScreenHeight 500
+#define ScreenWidth 1190
+#define ScreenHeight 700
 //#define FPS 60
 //#define frameFPS 9
 #define BlockSize 70
@@ -128,7 +129,7 @@ int main(int argc, char **argv){
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *event_queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
-    ALLEGRO_TIMER *catTimer = NULL;
+    ALLEGRO_TIMER *secondaryTimer = NULL;
     ALLEGRO_FONT *font = NULL;
     ALLEGRO_KEYBOARD_STATE keyState;
     ALLEGRO_TRANSFORM camera ;
@@ -162,6 +163,7 @@ int main(int argc, char **argv){
     ALLEGRO_COLOR electricBlue = al_map_rgb(44, 117, 255);
 
    //al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW | ALLEGRO_NOFRAME); //must be before display is created
+   //al_set_new_display_flags(ALLEGRO_NOFRAME);
    display = al_create_display(ScreenWidth, ScreenHeight);
    if(!display) {
       fprintf(stderr, "failed to create display!\n");
@@ -169,7 +171,7 @@ int main(int argc, char **argv){
 
       return -1;
    }
-al_set_window_position(display, 100, 100);
+al_set_window_position(display, 25, 25);
 
    event_queue = al_create_event_queue();//Creates Event Queue
    if(!event_queue) {
@@ -190,7 +192,7 @@ al_set_window_position(display, 100, 100);
 
 
     timer = al_create_timer(1.0f / FPS);
-    catTimer = al_create_timer(1.0f / frameFPS);
+    secondaryTimer = al_create_timer(1.0f / frameFPS);
 
     //Event register
     al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -239,19 +241,16 @@ al_set_window_position(display, 100, 100);
     LoadMap("Map1.txt", worldMap); //int* worldMap = LoadMap("Map1.txt");//Reads in from the map txt file
 
 //New OO code
-    InputManager input;
+InputManager input;
 
 ScreenManager::GetInstance().Initialize();
 ScreenManager::GetInstance().LoadContent();
-
-
-
 
 //End of OO code
 
 
     //Game loop
-    //al_start_timer(catTimer);
+    al_start_timer(secondaryTimer);
     al_start_timer(timer);
     while(!done)
     {
@@ -262,7 +261,15 @@ ScreenManager::GetInstance().LoadContent();
 
     if(ev.type == ALLEGRO_EVENT_TIMER)
     {
-        ScreenManager::GetInstance().Update(ev);
+        if(ev.timer.source == timer)
+        {
+            ScreenManager::GetInstance().Update(ev);
+        }
+        else if(ev.timer.source == secondaryTimer)
+        {
+            //add stuff for cat animations, etc...
+
+        }
         redraw = true;
     }
     else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -274,10 +281,16 @@ ScreenManager::GetInstance().LoadContent();
     { //If the user hits the close button
         done = true;
     }
+    else if(ev.type == ALLEGRO_EVENT_KEY_UP)
+    {
+        if(input.IsKeyReleased(ev, ALLEGRO_KEY_END))
+        {
+            ScreenManager::GetInstance().AddScreen(new EndScreen);
+        }
+        redraw = true;
+    }
 
-
-
-    if(redraw && al_is_event_queue_empty(event_queue)) {
+    if(redraw && al_is_event_queue_empty(event_queue)) {//Draws 60 FPS
          redraw = false;
 
          //ScreenManager::GetInstance().Update(ev);
@@ -515,7 +528,7 @@ ScreenManager::GetInstance().UnloadContent();
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
-    al_destroy_timer(catTimer);
+    al_destroy_timer(secondaryTimer);
    return 0;
 }
 
@@ -583,6 +596,7 @@ void LoadMap(const char *filename, std::vector< std::vector<int> > &worldMap)
             //loadCounterX++;
             //if(loadCounterX >= mapSizeX)
             //{
+            //    loadCounterX = 0;
             //    loadCounterX = 0;
             //    loadCounterY++;
             //}

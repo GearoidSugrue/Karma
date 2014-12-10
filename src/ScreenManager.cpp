@@ -21,16 +21,17 @@ ScreenManager::~ScreenManager()
 void ScreenManager::AddScreen(GameScreen *screen)
 {
     //newScreen = screen;
-    transition.SetAlpha(0);
+    //currentScreen->UnloadContent();
+    transition.GetSetAlpha() = 0;
+    fadeAni.SetIncrease(true);
     startTransition = true;
     newScreen = screen;
-    transition.SetIsActive(true);
+    transition.IsActive() = true;
 }
 
 void ScreenManager::Initialize()
 {
     currentScreen = new SplashScreen;
-    std::cout<<"creating Splashscreen..."<<std::endl;
 }
 
 void ScreenManager::LoadContent()
@@ -72,20 +73,21 @@ void ScreenManager::Draw(ALLEGRO_DISPLAY *display)
 
 void ScreenManager::Transition()
 {
-    transition.Update(currentScreen->GetInput());
-    if(transition.GetAlpha() >= 255) //higher value == faded out ie black image loads
+    fadeAni.Update(transition);
+    //ransition.Update(currentScreen->GetInput());
+    if(transition.GetSetAlpha() >= 255) //higher value == faded out ie black image loads
     {
-        transition.SetAlpha(255);
+        transition.GetSetAlpha() = 255;
         currentScreen->UnloadContent();
         delete currentScreen;
         currentScreen = newScreen;
         currentScreen->LoadContent();
         //al_rest(1.0) ;
     }
-    else if(transition.GetAlpha() <= 0)
+    else if(transition.GetSetAlpha() <= 0)
     {
         startTransition = false;
-        transition.SetIsActive(false);
+        transition.IsActive() = false;
     }
 
 }

@@ -13,10 +13,10 @@ class TitleScreen : public GameScreen
         TitleScreen();
         virtual ~TitleScreen();
 
- virtual void LoadContent();
-        virtual void UnloadContent();
-        virtual void Update(ALLEGRO_EVENT ev);
-        virtual void Draw(ALLEGRO_DISPLAY *display);
+        void LoadContent();
+        void UnloadContent();
+        void Update(ALLEGRO_EVENT ev);
+        void Draw(ALLEGRO_DISPLAY *display);
 
     protected:
     private:

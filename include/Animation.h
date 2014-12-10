@@ -15,17 +15,29 @@ class Animation
         Animation();
         virtual ~Animation();
 
-        virtual void LoadContent(ALLEGRO_BITMAP *image, std::string text, float position[2]);
-        virtual void UnloadContent();
-        virtual void Update(InputManager input);
+        void LoadContent(ALLEGRO_BITMAP *image, std::string text, float position[2]);
+        void UnloadContent();
+        virtual void Update(Animation &ani);
         void Draw(ALLEGRO_DISPLAY *display);//May be virtual...
-        virtual void SetAlpha(float value);
-        float GetAlpha();
+        //void SetAlpha(float value);//delete
 
-        void SetIsActive(bool val);
-        bool GetIsActive();
+        float &GetSetAlpha();
+        bool &IsActive();
+
+//std::pair<int, int> &Animation::NumberOfFrames()
+
+        std::pair<int, int> &NumberOfFrames();
+        std::pair<int, int> &CurrentFrame();
+        std::pair<int, int> GetFrameDimensions();
+
+        ALLEGRO_BITMAP*& Image();//sprite???
+        ALLEGRO_BITMAP*& SourceRect();//sprite???
+        //void SetIsActive(bool val);//delete
 
     protected:
+
+
+    private:
         ALLEGRO_FONT *font;
         ALLEGRO_BITMAP *image, *sourceRect;
         std::string text;
@@ -33,8 +45,8 @@ class Animation
         float alpha;
         bool isActive;
 
-    private:
-
+        std::pair<int, int> numberOfFrames;
+        std::pair<int, int> currentFrame;
 
 };
 

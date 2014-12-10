@@ -3,6 +3,8 @@
 FadeAnimation::FadeAnimation()
 {
     //ctor
+    fadeSpeed = 3.5f;
+    increaseFade = false;
 }
 
 FadeAnimation::~FadeAnimation()
@@ -10,13 +12,15 @@ FadeAnimation::~FadeAnimation()
     //dtor
 }
 
+/*
 void FadeAnimation::LoadContent(ALLEGRO_BITMAP *image, std::string text, float position[2])
 {
     Animation::LoadContent(image, text, position);
-    fadeSpeed = 3.0f;
+    fadeSpeed = 3.5f;
     increaseFade = false;
 
 }
+
 
 
 void FadeAnimation::UnloadContent()
@@ -25,50 +29,42 @@ void FadeAnimation::UnloadContent()
     fadeSpeed = NULL;
 
 }
-
-void FadeAnimation::Update(InputManager input)
+*/
+void FadeAnimation::Update(Animation &ani)
 {
-    if(isActive)
+    if(ani.IsActive())
     {
         if(!increaseFade)
         {
-            alpha -= fadeSpeed;
+            ani.GetSetAlpha() -= fadeSpeed;
             //std::cout<<alpha<<"fading out..."<<std::endl;
         }
         else
         {
-            alpha += fadeSpeed;
+            ani.GetSetAlpha() += fadeSpeed;
             //std::cout<<alpha<<fading in..."<<std::endl;
         }
 
-        if(alpha <= 0)
+        if(ani.GetSetAlpha() <= 0)
         {
-            alpha = 0;
+            ani.GetSetAlpha() = 0;
             increaseFade = true;
         }
-        else if(alpha >= 255)
+        else if(ani.GetSetAlpha() >= 255)
         {
-            alpha = 255;
+            ani.GetSetAlpha() = 255;
             increaseFade = false;
         }
     }
     else
     {
-        alpha = 255;
+        ani.GetSetAlpha() = 255;
     }
 
 }
 
-void FadeAnimation::SetAlpha(int val)
+void FadeAnimation::SetIncrease(bool val)
 {
-    alpha = val;
-    if(alpha == 0)
-    {
-        increaseFade = true;
-    }
-    else if(alpha == 255)
-    {
-        increaseFade = false;
-    }
-
+    increaseFade = val;
 }
+

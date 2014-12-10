@@ -4,7 +4,9 @@
 #include <allegro_font.h>
 #include <allegro_ttf.h>
 
-#include "GameScreen.h"
+//#include "GameScreen.h"
+#include "ScreenManager.h"
+#include "FadeAnimation.h"
 
 class SplashScreen : public GameScreen
 {
@@ -12,16 +14,17 @@ class SplashScreen : public GameScreen
         SplashScreen();
         virtual ~SplashScreen();
 
-        virtual void LoadContent();
-        virtual void UnloadContent();
-        virtual void Update(ALLEGRO_EVENT ev);
-        virtual void Draw(ALLEGRO_DISPLAY *display);
+        void LoadContent();
+        void UnloadContent();
+        void Update(ALLEGRO_EVENT ev);
+        void Draw(ALLEGRO_DISPLAY *display);
 
     protected:
     private:
-
         ALLEGRO_FONT *font;
 
+        std::vector<FadeAnimation*> fade;//Delete this???
+        FadeAnimation fanimation;
 
 };
 

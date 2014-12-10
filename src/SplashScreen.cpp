@@ -21,11 +21,12 @@ void SplashScreen::LoadContent()
 void SplashScreen::UnloadContent()
 {
     al_destroy_font(font) ;
-    GameScreen::UnloadContent();
+    //GameScreen::UnloadContent();
 }
 
 void SplashScreen::Update(ALLEGRO_EVENT ev)
 {
+    //fanimation.Update();
     if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
     {
         ScreenManager::GetInstance().AddScreen(new TitleScreen);

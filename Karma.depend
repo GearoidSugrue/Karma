@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1418191994 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
+1418208410 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
 	<iostream>
 	<stdio.h>
 	<allegro.h>
@@ -16,6 +16,7 @@
 	<string>
 	"ScreenManager.h"
 	"InputManager.h"
+	"EndScreen.h"
 	<cmath>
 	"main.h"
 
@@ -35,33 +36,37 @@
 
 1418066075 /home/gearoid/Documents/Code Blocks Projects/Karma/Game.h
 
-1418193426 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/ScreenManager.cpp
+1418238923 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/ScreenManager.cpp
 	"ScreenManager.h"
 
-1418102450 /home/gearoid/Documents/Code Blocks Projects/Karma/include/ScreenManager.h
+1418238504 /home/gearoid/Documents/Code Blocks Projects/Karma/include/ScreenManager.h
 	<iostream>
 	<string>
 	"GameScreen.h"
 	"SplashScreen.h"
 	"TitleScreen.h"
 	"FadeAnimation.h"
+	"GameplayScreen.h"
 	<allegro.h>
 	<allegro_image.h>
 
-1418189270 /home/gearoid/Documents/Code Blocks Projects/Karma/include/GameScreen.h
+1418207544 /home/gearoid/Documents/Code Blocks Projects/Karma/include/GameScreen.h
 	<allegro.h>
 	"InputManager.h"
 	<iostream>
+	<fstream>
+	<sstream>
 
-1418189326 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/GameScreen.cpp
+1418208520 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/GameScreen.cpp
 	"GameScreen.h"
 
-1418104274 /home/gearoid/Documents/Code Blocks Projects/Karma/include/SplashScreen.h
+1418238347 /home/gearoid/Documents/Code Blocks Projects/Karma/include/SplashScreen.h
 	<allegro_font.h>
 	<allegro_ttf.h>
-	"GameScreen.h"
+	"ScreenManager.h"
+	"FadeAnimation.h"
 
-1418193625 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/SplashScreen.cpp
+1418238251 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/SplashScreen.cpp
 	"SplashScreen.h"
 	"ScreenManager.h"
 
@@ -73,28 +78,58 @@
 	<keyboard.h>
 	<vector>
 
-1418185250 /home/gearoid/Documents/Code Blocks Projects/Karma/include/TitleScreen.h
+1418238301 /home/gearoid/Documents/Code Blocks Projects/Karma/include/TitleScreen.h
 	<allegro_font.h>
 	<allegro_ttf.h>
 	"ScreenManager.h"
 
-1418187148 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/TitleScreen.cpp
+1418210666 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/TitleScreen.cpp
 	"TitleScreen.h"
 
-1418190883 /home/gearoid/Documents/Code Blocks Projects/Karma/include/FadeAnimation.h
+1418237418 /home/gearoid/Documents/Code Blocks Projects/Karma/include/FadeAnimation.h
 	<Animation.h>
 	<iostream>
 
-1418102793 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Animation.h
+1418245328 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Animation.h
 	<string>
 	<allegro.h>
 	<allegro_image.h>
 	<allegro_font.h>
 	"InputManager.h"
 
-1418193309 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Animation.cpp
+1418245398 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Animation.cpp
 	"Animation.h"
 
-1418192301 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/FadeAnimation.cpp
+1418238435 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/FadeAnimation.cpp
 	"FadeAnimation.h"
+
+1418204899 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/EndScreen.cpp
+	"EndScreen.h"
+
+1418198316 /home/gearoid/Documents/Code Blocks Projects/Karma/include/EndScreen.h
+	<allegro_font.h>
+	<allegro_ttf.h>
+	"ScreenManager.h"
+
+1418245407 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Player.cpp
+	"Player.h"
+
+1418243971 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Player.h
+	<allegro.h>
+	<iostream>
+	"InputManager.h"
+	"SpriteSheetAnimation.h"
+
+1418210934 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/GameplayScreen.cpp
+	"GameplayScreen.h"
+
+1418210851 /home/gearoid/Documents/Code Blocks Projects/Karma/include/GameplayScreen.h
+	"GameScreen.h"
+	"Player.h"
+
+1418245478 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/SpriteSheetAnimation.cpp
+	"SpriteSheetAnimation.h"
+
+1418241929 /home/gearoid/Documents/Code Blocks Projects/Karma/include/SpriteSheetAnimation.h
+	"Animation.h"
 

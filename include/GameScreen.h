@@ -4,6 +4,9 @@
 #include<allegro.h>
 #include"InputManager.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
 
 class GameScreen
 {
@@ -24,7 +27,18 @@ class GameScreen
         //std::vector< std::vector<std::string> > contents;
 
     private:
+        void DrawMap(std::vector< std::vector<int> > &worldMap);
+        void LoadMap(const char *filename, std::vector< std::vector<int> > &worldMap);
+        void CameraUpdate(float* cameraPosition, float x, float y, int width, int height);
 
+        std::vector< std::vector<int> > worldMap;
+        ALLEGRO_BITMAP *tileSpriteSheet;
+        const float BlockSize = 70;
+        const int ScreenWidth = 1190 ;
+        const int ScreenHeight = 700 ;
+
+        //int mapSizeX;
+        //int mapSizeY;
 
 };
 

@@ -7,6 +7,7 @@
 #include "SplashScreen.h"
 #include "TitleScreen.h"
 #include "FadeAnimation.h"
+#include "GameplayScreen.h"
 
 //Allegro Initialise
 #include<allegro.h>
@@ -42,9 +43,11 @@ class ScreenManager
 
         std::string text;
         GameScreen *currentScreen, *newScreen;
-        FadeAnimation transition;
+        Animation transition;
+        FadeAnimation fadeAni;
 
         void Transition();
+
         bool startTransition;
 
         ALLEGRO_BITMAP *blackFader;
