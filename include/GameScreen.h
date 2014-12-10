@@ -3,6 +3,7 @@
 
 #include<allegro.h>
 #include"InputManager.h"
+#include <iostream>
 
 class GameScreen
 {
@@ -19,6 +20,8 @@ class GameScreen
 
     protected:
         InputManager input;
+        //std::vector< std::vector<std::string> > attributes;
+        //std::vector< std::vector<std::string> > contents;
 
     private:
 

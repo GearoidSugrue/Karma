@@ -18,12 +18,14 @@ void GameScreen::LoadContent()
 
 void GameScreen::UnloadContent()
 {
-
+    //attributes.clear();
+    //contents.clear();
 
 }
 
 void GameScreen::Update(ALLEGRO_EVENT ev)
 {
+    std::cout << "Is this doing anything..." <<std::endl ;
 
 }
 

@@ -15,7 +15,6 @@
 
 
 //#include "include/Game.h"
-#include "Game.h"
 #include "ScreenManager.h"
 #include "InputManager.h"
 //#include "ScreenManager.h"
@@ -58,7 +57,7 @@ struct Camera
     float x, y, fade;
     ALLEGRO_TRANSFORM transform;
 };
-*/
+
 struct Sprite
 {
 	float x;
@@ -79,6 +78,7 @@ struct Sprite
 
 	ALLEGRO_BITMAP *image;
 };
+*/
 
 void LoadMap(const char *filename, std::vector< std::vector<int> > &worldMap);
 
@@ -169,6 +169,7 @@ int main(int argc, char **argv){
 
       return -1;
    }
+al_set_window_position(display, 100, 100);
 
    event_queue = al_create_event_queue();//Creates Event Queue
    if(!event_queue) {
@@ -188,17 +189,14 @@ int main(int argc, char **argv){
     }
 
 
-
-
-
-    timer = al_create_timer(1.0 / FPS);
-    catTimer = al_create_timer(1.0 / frameFPS);
+    timer = al_create_timer(1.0f / FPS);
+    catTimer = al_create_timer(1.0f / frameFPS);
 
     //Event register
     al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_keyboard_event_source());
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
-    al_register_event_source(event_queue, al_get_timer_event_source(catTimer));
+    //al_register_event_source(event_queue, al_get_timer_event_source(catTimer));
     al_register_event_source(event_queue, al_get_mouse_event_source());
 
     // use other one//al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW | ALLEGRO_NOFRAME) ; //comment this in later
@@ -253,21 +251,63 @@ ScreenManager::GetInstance().LoadContent();
 
 
     //Game loop
-    al_start_timer(catTimer);
+    //al_start_timer(catTimer);
     al_start_timer(timer);
     while(!done)
     {
     ALLEGRO_EVENT ev;
     al_wait_for_event(event_queue, &ev);
-    al_get_keyboard_state(&keyState);
+     //al_get_next_event(event_queue, &ev);
+    //al_get_keyboard_state(&keyState);
 
-
-    if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE || input.IsKeyPressed(ev, ALLEGRO_KEY_ESCAPE)) { //If the user hits the close button
+    if(ev.type == ALLEGRO_EVENT_TIMER)
+    {
+        ScreenManager::GetInstance().Update(ev);
+        redraw = true;
+    }
+    else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+    {
+        ScreenManager::GetInstance().Update(ev);
+        redraw = true;
+    }
+    else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE || input.IsKeyReleased(ev, ALLEGRO_KEY_ESCAPE))
+    { //If the user hits the close button
         done = true;
     }
 
-    ScreenManager::GetInstance().Update(ev);
-    ScreenManager::GetInstance().Draw(display);
+
+
+    if(redraw && al_is_event_queue_empty(event_queue)) {
+         redraw = false;
+
+         //ScreenManager::GetInstance().Update(ev);
+        ScreenManager::GetInstance().Draw(display);
+
+         //al_clear_to_color(al_map_rgb(0,0,0));
+
+
+         //al_flip_display();///Only have this once!!!!
+      }
+
+
+}
+    /*
+    if(ev.type == ALLEGRO_EVENT_TIMER)
+    {
+        if(ev.timer.source == timer)
+        {
+        //al_get_keyboard_state(&keyState);
+
+        }
+
+    }
+    */
+
+
+
+
+
+
 
 
     /*
@@ -456,9 +496,9 @@ ScreenManager::GetInstance().LoadContent();
 
 
 */
-al_flip_display();
-al_clear_to_color(al_map_rgb(255,255,255));//delete this ???
-}
+//al_flip_display();
+//al_clear_to_color(al_map_rgb(255,255,255));//delete this ???
+//}
 
 ScreenManager::GetInstance().UnloadContent();
     //al_rest(7.0);

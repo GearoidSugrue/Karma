@@ -5,6 +5,7 @@
 #include <allegro_ttf.h>
 
 #include "ScreenManager.h"
+//#include "InputManager.h"
 
 class TitleScreen : public GameScreen
 {
@@ -21,6 +22,8 @@ class TitleScreen : public GameScreen
     private:
 
         ALLEGRO_FONT *font;
+        ALLEGRO_BITMAP *logo;
+        //InputManager input;
 
 
 };

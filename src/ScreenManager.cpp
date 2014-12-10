@@ -30,6 +30,7 @@ void ScreenManager::AddScreen(GameScreen *screen)
 void ScreenManager::Initialize()
 {
     currentScreen = new SplashScreen;
+    std::cout<<"creating Splashscreen..."<<std::endl;
 }
 
 void ScreenManager::LoadContent()
@@ -66,6 +67,7 @@ void ScreenManager::Draw(ALLEGRO_DISPLAY *display)
     {
         transition.Draw(display);
     }
+    al_flip_display(); //Flips everything on the back buffer onto the disply. Only have this once!!!!
 }
 
 void ScreenManager::Transition()
@@ -78,7 +80,7 @@ void ScreenManager::Transition()
         delete currentScreen;
         currentScreen = newScreen;
         currentScreen->LoadContent();
-        al_rest(1.0) ;
+        //al_rest(1.0) ;
     }
     else if(transition.GetAlpha() <= 0)
     {

@@ -13,7 +13,7 @@ FadeAnimation::~FadeAnimation()
 void FadeAnimation::LoadContent(ALLEGRO_BITMAP *image, std::string text, float position[2])
 {
     Animation::LoadContent(image, text, position);
-    fadeSpeed = 1.5f;
+    fadeSpeed = 3.0f;
     increaseFade = false;
 
 }
@@ -33,10 +33,12 @@ void FadeAnimation::Update(InputManager input)
         if(!increaseFade)
         {
             alpha -= fadeSpeed;
+            //std::cout<<alpha<<"fading out..."<<std::endl;
         }
         else
         {
             alpha += fadeSpeed;
+            //std::cout<<alpha<<fading in..."<<std::endl;
         }
 
         if(alpha <= 0)

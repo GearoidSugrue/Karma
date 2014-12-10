@@ -2,6 +2,8 @@
 #define FADEANIMATION_H
 
 #include <Animation.h>
+#include<iostream>
+
 
 
 class FadeAnimation : public Animation

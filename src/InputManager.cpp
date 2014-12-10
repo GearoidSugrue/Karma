@@ -34,7 +34,7 @@ bool InputManager::IsKeyPressed(ALLEGRO_EVENT ev, std::vector<int> keys)
 
 bool InputManager::IsKeyReleased(ALLEGRO_EVENT ev, int key)
 {
-    if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+    if(ev.type == ALLEGRO_EVENT_KEY_UP)
     {
         if(ev.keyboard.keycode == key)
             return true;
