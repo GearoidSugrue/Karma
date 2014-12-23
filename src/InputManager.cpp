@@ -55,3 +55,23 @@ bool InputManager::IsKeyReleased(ALLEGRO_EVENT ev, std::vector<int> keys)
     }
 
 }
+
+bool InputManager::IsKeyDown(int key)
+{
+    if(al_key_down(&keystate, key))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+
+}
+
+void InputManager::Update()
+{
+    al_get_keyboard_state(&keystate);
+
+}

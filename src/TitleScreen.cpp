@@ -23,6 +23,8 @@ void TitleScreen::UnloadContent()
 {
     al_destroy_font(font) ;
     al_destroy_bitmap(logo) ;
+    std::cout<<"destroying TitleScreen..."<<std::endl;
+
     //GameScreen::UnloadContent();
 }
 

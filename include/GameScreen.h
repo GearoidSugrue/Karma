@@ -21,13 +21,15 @@ class GameScreen
 
         InputManager GetInput();
 
+        std::pair<float, float> cameraPosition;
+
     protected:
         InputManager input;
         //std::vector< std::vector<std::string> > attributes;
         //std::vector< std::vector<std::string> > contents;
 
     private:
-        void DrawMap(std::vector< std::vector<int> > &worldMap);
+        void DrawMap(std::vector< std::vector<int> > &worldMap);//may need to delete this as its also in GameplayScreen
         void LoadMap(const char *filename, std::vector< std::vector<int> > &worldMap);
         void CameraUpdate(float* cameraPosition, float x, float y, int width, int height);
 

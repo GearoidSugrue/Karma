@@ -22,13 +22,15 @@ void EndScreen::UnloadContent()
 {
     al_destroy_font(font) ;
     al_destroy_bitmap(logo) ;
+    std::cout<<"destroying EndScreen..."<<std::endl;
+
 }
 
 void EndScreen::Update(ALLEGRO_EVENT ev)
 {
     if(input.IsKeyPressed(ev, ALLEGRO_KEY_ENTER))
     {
-        ScreenManager::GetInstance().AddScreen(new GameScreen);
+        ScreenManager::GetInstance().AddScreen(new GameplayScreen);
         //create new game screen?
     }
 }

@@ -8,6 +8,7 @@
 #include<allegro_font.h>
 #include"InputManager.h"
 
+#include<iostream>
 
 class Animation
 {
@@ -15,7 +16,7 @@ class Animation
         Animation();
         virtual ~Animation();
 
-        void LoadContent(ALLEGRO_BITMAP *image, std::string text, float position[2]);
+        void LoadContent(ALLEGRO_BITMAP *image, std::string text, std::pair<float, float> pos);//float position[2]);
         void UnloadContent();
         virtual void Update(Animation &ani);
         void Draw(ALLEGRO_DISPLAY *display);//May be virtual...
@@ -30,9 +31,13 @@ class Animation
         std::pair<int, int> &CurrentFrame();
         std::pair<int, int> GetFrameDimensions();
 
+        std::pair<float, float> &Position();
+
         ALLEGRO_BITMAP*& Image();//sprite???
         ALLEGRO_BITMAP*& SourceRect();//sprite???
         //void SetIsActive(bool val);//delete
+
+        std::pair<float, float> position;
 
     protected:
 
@@ -41,7 +46,8 @@ class Animation
         ALLEGRO_FONT *font;
         ALLEGRO_BITMAP *image, *sourceRect;
         std::string text;
-        float position[2];
+        //std::pair<float, float> position;
+        //float position[2];
         float alpha;
         bool isActive;
 

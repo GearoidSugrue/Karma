@@ -21,6 +21,8 @@ void SplashScreen::LoadContent()
 void SplashScreen::UnloadContent()
 {
     al_destroy_font(font) ;
+    std::cout<<"destroying Splashscreen..."<<std::endl;
+
     //GameScreen::UnloadContent();
 }
 

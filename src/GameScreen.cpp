@@ -12,6 +12,7 @@ GameScreen::~GameScreen()
 
 void GameScreen::LoadContent()
 {
+
     LoadMap("Map1.txt", worldMap);
     std::cout<<"creating Gamescreen..."<<std::endl;
 
@@ -21,6 +22,7 @@ void GameScreen::UnloadContent()
 {
     //attributes.clear();
     //contents.clear();
+
 
     worldMap.clear();
     std::vector< std::vector<int> >(worldMap).swap(worldMap);
@@ -54,6 +56,7 @@ void GameScreen::Update(ALLEGRO_EVENT ev)
 
 }
 
+
 void GameScreen::Draw(ALLEGRO_DISPLAY *display)
 {
     DrawMap(worldMap);
@@ -63,6 +66,7 @@ InputManager GameScreen::GetInput()
 {
     return input;
 }
+
 
 void GameScreen::DrawMap(std::vector< std::vector<int> > &worldMap)//int worldMap[])
 {
@@ -149,3 +153,5 @@ void GameScreen::CameraUpdate(float* cameraPosition, float x, float y, int width
     }
 
 }
+
+

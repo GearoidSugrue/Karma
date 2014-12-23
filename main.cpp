@@ -132,7 +132,7 @@ int main(int argc, char **argv){
     ALLEGRO_TIMER *secondaryTimer = NULL;
     ALLEGRO_FONT *font = NULL;
     ALLEGRO_KEYBOARD_STATE keyState;
-    ALLEGRO_TRANSFORM camera ;
+    //ALLEGRO_TRANSFORM camera ;
 
 
    if(!al_init()) { //can't initialize anything before this
@@ -278,7 +278,8 @@ ScreenManager::GetInstance().LoadContent();
         redraw = true;
     }
     else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE || input.IsKeyReleased(ev, ALLEGRO_KEY_ESCAPE))
-    { //If the user hits the close button
+    { //Exits the game if the user hits the close button or ESC key.
+        ScreenManager::GetInstance().UnloadContent();
         done = true;
     }
     else if(ev.type == ALLEGRO_EVENT_KEY_UP)

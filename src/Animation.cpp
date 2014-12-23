@@ -10,13 +10,18 @@ Animation::~Animation()
     //dtor
 }
 
-void Animation::LoadContent(ALLEGRO_BITMAP *image, std::string text, float position[2])
+void Animation::LoadContent(ALLEGRO_BITMAP *image, std::string text, std::pair<float, float> pos)//float pos[2])
 {
     this->image = image;
     this->text = text;
-    this->position[0] = position[0];
-    this->position[1] = position[1];
+    //this->position[0] = pos[0];
+    //this->position[1] = pos[1];
 
+    position.first = pos.first;
+    position.second  = pos.second;
+    //position = pos; //Use this instead of ^^^
+
+    //std::pair<float, float> position;
 
     numberOfFrames = std::pair<int, int>(8, 1);
     currentFrame = std::pair<int, int>(0, 0);
@@ -33,11 +38,18 @@ void Animation::LoadContent(ALLEGRO_BITMAP *image, std::string text, float posit
 
 void Animation::UnloadContent()
 {
-    //al_destroy_bitmap(image);
+    //al_destroy_bitmap(image); // comment out???d  ...causing it to crash
     //al_destroy_bitmap(sourceRect);
     al_destroy_font(font);
-    alpha = NULL;
-    position[0] = position[1] = NULL;
+    alpha = 0;
+    //position[0] = position[1] = 0;
+    position = std::pair<float, float>(0, 0);
+    isActive = NULL;
+    text = "";
+    numberOfFrames = std::pair<int, int>(0, 0);
+    currentFrame = std::pair<int, int>(0, 0);
+    std::cout<<"destroying an Animation..."<<std::endl;
+
     //fadeSpeed = NULL;
 }
 
@@ -51,7 +63,7 @@ void Animation::Draw(ALLEGRO_DISPLAY *display)
 {
     if(sourceRect != NULL)
     {
-        al_draw_tinted_bitmap(sourceRect, al_map_rgba(255, 255, 255, alpha), position[0], position[1], NULL);
+        al_draw_tinted_bitmap(sourceRect, al_map_rgba(255, 255, 255, alpha), position.first, position.second, NULL);
 
     }
     /*
@@ -64,7 +76,7 @@ void Animation::Draw(ALLEGRO_DISPLAY *display)
 
     if(text != "")
     {
-        al_draw_text(font, al_map_rgba(255, 0, 0, alpha), position[0], position[1], NULL, text.c_str());
+        al_draw_text(font, al_map_rgba(255, 0, 0, alpha), position.first, position.second, NULL, text.c_str());
     }
 
 }
@@ -91,6 +103,11 @@ void Animation::SetIsActive(bool val)//delete
 bool &Animation::IsActive()
 {
     return isActive;
+}
+
+std::pair<float, float> &Animation::Position()
+{
+    return position;
 }
 
 std::pair<int, int> &Animation::NumberOfFrames()

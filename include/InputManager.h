@@ -18,6 +18,9 @@ class InputManager
         bool IsKeyReleased(ALLEGRO_EVENT ev, int keys);
         bool IsKeyReleased(ALLEGRO_EVENT ev, std::vector<int> keys);
 
+        bool IsKeyDown(int key);
+
+        void Update();
 
     protected:
 
