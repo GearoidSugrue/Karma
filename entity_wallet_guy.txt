@@ -3,13 +3,13 @@
 [Type]
 0
 [Color]
-45 110 200
+45 110 150
 [Size]
 85 120
 [TextBox]
 You just found that guys wallet. It looks like he hasn't even noticed it missing!
 [Text]
-*Press Space to give wallet back*?
+*SPACE to return it OR ENTER to keep it*
 [Yes]
 Oh, thank you! I didn't even notice that I droped it!
 [No]

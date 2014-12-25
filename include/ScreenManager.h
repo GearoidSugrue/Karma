@@ -1,6 +1,8 @@
 #ifndef SCREENMANAGER_H
 #define SCREENMANAGER_H
 
+#include<allegro.h>
+#include<allegro_image.h>
 #include<iostream>
 #include<string>
 #include "GameScreen.h"
@@ -8,15 +10,6 @@
 #include "TitleScreen.h"
 #include "FadeAnimation.h"
 #include "GameplayScreen.h"
-
-//Allegro Initialise
-#include<allegro.h>
-#include<allegro_image.h>
-//#include<allegro_native_dialog.h>
-
-//#define ScreenHeight 900
-//#define Screenwidth 700
-
 
 class ScreenManager
 {
@@ -32,10 +25,7 @@ class ScreenManager
 
         void AddScreen(GameScreen *screen);
 
-
     protected:
-
-
     private:
         ScreenManager();
         ScreenManager(ScreenManager const&);
@@ -47,14 +37,9 @@ class ScreenManager
         FadeAnimation fadeAni;
 
         void Transition();
-
         bool startTransition;
 
         ALLEGRO_BITMAP *blackFader;
-
-
-        //ALLEGRO_FONT *font;
-
 };
 
 #endif // SCREENMANAGER_H

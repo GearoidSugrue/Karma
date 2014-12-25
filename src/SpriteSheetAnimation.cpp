@@ -32,12 +32,9 @@ void SpriteSheetAnimation::Update(Animation &ani)
     {
         frameCounter = 0;
         ani.CurrentFrame().first = 0;
-
     }
 
     ani.SourceRect() = al_create_sub_bitmap(ani.Image(), ani.CurrentFrame().first * ani.GetFrameDimensions().first,
                             ani.CurrentFrame().second * ani.GetFrameDimensions().second, ani.GetFrameDimensions().first,
                             ani.GetFrameDimensions().second);
-
-
 }

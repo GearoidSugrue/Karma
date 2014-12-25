@@ -5,8 +5,6 @@
 #include<keyboard.h>
 #include<vector>
 
-
-
 class InputManager
 {
     public:
@@ -27,7 +25,6 @@ class InputManager
 
     private:
         ALLEGRO_KEYBOARD_STATE keystate;
-
 
 };
 

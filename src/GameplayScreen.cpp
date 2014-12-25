@@ -13,74 +13,58 @@ GameplayScreen::~GameplayScreen()
 
 void GameplayScreen::LoadContent()
 {
-    player.LoadContent();//"PlayerImage.png", std::pair<float, float>(0,0));
+    player.LoadContent();
     font = al_load_font("Munro.ttf", 24, NULL);
-
+    fontColor = al_map_rgb(150, 150, 150);
+    isEndGame = false;
     cameraPosition.first = 0;
     cameraPosition.second = 0;
-
     entityMan.LoadContent("entities_list.txt");
-    //cat_girl.LoadContent("Girl_Cat.txt");
 
     LoadMap("Map1.txt");
-    dialogText = "Use arrow keys to move. \n Space to interact. \n ESC to quit. \n \n Objective: Go buy food" ;
+    HudText = "Use arrow keys to move. \n Space to interact. \n ESC to quit. \n \n Goal: Go to the shop" ;
     std::cout<<"creating GameplayScreen..."<<std::endl;
-
 }
 
 void GameplayScreen::UnloadContent()
 {
     al_translate_transform(&camera, cameraPosition.first, cameraPosition.second); //Sets camera back to default
     player.UnloadContent();
+    entityMan.UnloadContent();
 
     cameraPosition.first = 0;
     cameraPosition.second = 0;
+    HudText = "";
 
     worldMap.clear();
     std::vector< std::vector<int> >(worldMap).swap(worldMap);
     al_destroy_bitmap(tileSpriteSheet);
     al_destroy_font(font);
-
     al_identity_transform(&camera);
     al_use_transform(&camera);
-
     std::cout<<"destroying GameplayScreen..."<<std::endl;
-
 }
 
 void GameplayScreen::Update(ALLEGRO_EVENT ev)
 {
-    player.Update(ev, input);//, input);
-/*
-    if(input.IsKeyPressed(ev, ALLEGRO_KEY_LEFT))//move player character...move these ifs?
-    {
-        //Update player's velocity
+    player.Update(ev, input);
+    entityMan.Update(ev, input, &player);
 
-    }
-    else if(input.IsKeyPressed(ev, ALLEGRO_KEY_RIGHT))
+    if(isEndGame)
     {
 
-    }
-    else if(input.IsKeyPressed(ev, ALLEGRO_KEY_UP))
-    {
-
+        ScreenManager::GetInstance().AddScreen(new EndScreen);
 
     }
-    else if(input.IsKeyPressed(ev, ALLEGRO_KEY_SPACE))
-    {
-        //action command.
-    }
-*/
 }
 
 void GameplayScreen::Draw(ALLEGRO_DISPLAY *display)
 {
     al_clear_to_color(al_map_rgb(255,255,255));
-    DrawMap(); //Create own class later?
-
+    DrawMap();
     entityMan.Draw(display);
-    //cat_girl.Draw(display);
 
+    EntitiesInteraction();
     player.Draw(display);
     CameraUpdate(player.GetPosition().first, player.GetPosition().second, 80, 120);
 
@@ -88,38 +72,64 @@ void GameplayScreen::Draw(ALLEGRO_DISPLAY *display)
     al_translate_transform(&camera, -cameraPosition.first, -cameraPosition.second);
     al_use_transform(&camera);
 
-
     DrawHUD(display);
-    DrawWrappedText(font, dialogText, al_map_rgb(150, 150, 150), cameraPosition.first + 20, cameraPosition.second + 20, 500, ALLEGRO_ALIGN_LEFT, true);
+    DrawWrappedText(font, HudText, fontColor, cameraPosition.first + 20, cameraPosition.second + 20, 500, ALLEGRO_ALIGN_LEFT, true);
 }
 
 void GameplayScreen::DrawHUD(ALLEGRO_DISPLAY *display)
 {//Draws the amount of money the player has to the screen
-
     std::stringstream convert;
     convert << "Money: " << player.GetMoney() << " Euro";
-    //cashAmount = convert.str();
-    //const char amount = cashAmount;
     std::string cashAmount  = convert.str();
-    const char * c = cashAmount.c_str();
-    al_draw_text(font, al_map_rgb(150, 150, 150), (cameraPosition.first + ScreenWidth) - 200, cameraPosition.second + 20, NULL, c );
-
-}
-
-void GameplayScreen::EntitiesDraw()
-{
-    //for(int i = 0; i < entities.size(); i++)
-    //{
-    //    entities[i]->Draw();
-    //}
-
+    const char * cash = cashAmount.c_str();
+    al_draw_text(font, fontColor, (cameraPosition.first + ScreenWidth) - 200, cameraPosition.second + 20, NULL, cash );
+    al_draw_rounded_rectangle((cameraPosition.first + ScreenWidth) - 210, cameraPosition.second + 15, (cameraPosition.first + ScreenWidth) - 45, cameraPosition.second + 45, 5, 5, fontColor, 2) ;
 }
 
 void GameplayScreen::EntitiesInteraction()
 {
+    int sz = entityMan.entities.size();
+    for(int i = 0; i < sz; i++)
+    {
+        Entity *ent = entityMan.entities[i];
 
+        if(IsNearEntity(ent))
+        {
+            ent->isNear = true;
 
+            if(std::strcmp(ent->textBoxText, "NULL") != 0 )
+            {
+                HudText = ent->textBoxText;
+            }
 
+            if(std::strcmp(ent->dialogText, "NULL") != 0 )
+            {
+                if(ent->type == ent->CHARACTER)
+                {
+                    int textBoxHeight = DrawWrappedText(font, ent->dialogText, ent->color, (ent->pos.first -(ent->sizeWidth/2)) - 100, (ent->pos.second - ent->sizeHeight) - (textBoxHeight+15), 200, ALLEGRO_ALIGN_LEFT, false);
+                    DrawWrappedText(font, ent->dialogText, ent->color, (ent->pos.first -(ent->sizeWidth/2)) - 100, (ent->pos.second - ent->sizeHeight) - (textBoxHeight+15), 200, ALLEGRO_ALIGN_LEFT, true);
+                    al_draw_rounded_rectangle((ent->pos.first -(ent->sizeWidth/2)) - 110, (ent->pos.second - ent->sizeHeight) - (textBoxHeight+20), (ent->pos.first -(ent->sizeWidth/2)) + 110, (ent->pos.second - ent->sizeHeight) - 15, 5, 5, ent->color, 2) ;
+                }
+                else
+                {
+                    int textBoxHeight = DrawWrappedText(font, ent->dialogText, ent->color, (ent->pos.first +(ent->sizeWidth/2)) - 100, ent->pos.second - (textBoxHeight+15), 200, ALLEGRO_ALIGN_LEFT, false);
+                    DrawWrappedText(font, ent->dialogText, ent->color, (ent->pos.first +(ent->sizeWidth/2)) - 100, ent->pos.second - (textBoxHeight+15), 200, ALLEGRO_ALIGN_LEFT, true);
+                    al_draw_rounded_rectangle((ent->pos.first +(ent->sizeWidth/2)) - 110, ent->pos.second - (textBoxHeight+20), (ent->pos.first +(ent->sizeWidth/2)) + 110, ent->pos.second - 15, 5, 5, ent->color, 2) ;
+                }
+            }
+            if(std::strcmp(ent->entityName, "entity_blocks.txt") == 0 )
+            {
+                if(ent->isActionComplete)
+                {
+                    isEndGame = true;
+                }
+            }
+        }
+        else
+        {
+            ent->isNear = false;
+        }
+    }
 }
 
 int GameplayScreen::DrawWrappedText(ALLEGRO_FONT *af,char atext[1024],ALLEGRO_COLOR fc, int x1, int y1, int width, int flags,bool draw)
@@ -187,20 +197,34 @@ int GameplayScreen::DrawWrappedText(ALLEGRO_FONT *af,char atext[1024],ALLEGRO_CO
      return((CurrentLine+1) * al_get_font_line_height(af));  // Return the actual height of the text in pixels.
 }
 
-bool GameplayScreen::IsNearEntity(float entX, float entY, int entWidth, int entHeight)
+bool GameplayScreen::IsNearEntity(Entity *ent)
 {
     float _playerX = player.GetPosition().first;
     float _playerY = player.GetPosition().second;
-    if(_playerX  < entX - 130 || _playerX > (entX + entWidth) + 50 || _playerY  < entY - 130|| _playerY > entY + entHeight + 50)
+    float entX = ent->pos.first;
+    float entY = ent->pos.second;
+    float entWidth = ent->sizeWidth;
+    float entHeight = ent->sizeHeight;
+
+    if(ent->type == ent->CHARACTER)
     {
-        //No Collision
+        if(_playerX  < (entX - entWidth) -180 || _playerX > entX + 80 || _playerY  < entY - 240|| _playerY > entY + entHeight + 50)
+        {
         return false ;
+        }
+    }
+    else if(ent->type == ent->OBJECT)
+    {
+        if(_playerX  < entX - 100 || _playerX > (entX + entWidth) + 20 || _playerY  < entY - 20|| _playerY > entY + entHeight+80)
+        {
+        return false ;
+        }
     }
 
     return true ;
 }
 
-void GameplayScreen::DrawMap()//int worldMap[])
+void GameplayScreen::DrawMap()
 {
     int value ;
 
@@ -208,8 +232,7 @@ void GameplayScreen::DrawMap()//int worldMap[])
     {
         for(int j = 0; j < worldMap[i].size(); j++)
         {
-            //if(worldMap[i][j] != 0)
-                al_draw_bitmap_region(tileSpriteSheet, worldMap[i][j] * BlockSize, 0,
+            al_draw_bitmap_region(tileSpriteSheet, worldMap[i][j] * BlockSize, 0,
                     BlockSize, BlockSize, j * BlockSize, i * BlockSize, NULL);
         }
     }
@@ -257,15 +280,11 @@ void GameplayScreen::LoadMap(const char *filename)
                 }
                 worldMap.push_back(tempVector);
                 break;
-
-                }
-        //mapSizeY = loadCounterY ;
+            }
         }
-       // return ary ;
     }
     else
     {
-
         std::cout<<"Failed to open map file."<<std::endl;
     }
 }
@@ -283,5 +302,4 @@ void GameplayScreen::CameraUpdate(float x, float y, int width, int height)
     {
         cameraPosition.second = 0 ;
     }
-
 }

@@ -1,23 +1,12 @@
 # depslib dependency file v1.0
-1419312239 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
+1419473633 source:/home/gearoid/Documents/Code Blocks Projects/Karma/main.cpp
 	<iostream>
 	<stdio.h>
 	<allegro.h>
 	<allegro_native_dialog.h>
-	<allegro_ttf.h>
-	<allegro_font.h>
-	<allegro_primitives.h>
-	<allegro_image.h>
-	<allegro_audio.h>
-	<allegro_acodec.h>
-	<fstream>
-	<vector>
-	<sstream>
-	<string>
 	"ScreenManager.h"
 	"InputManager.h"
 	"EndScreen.h"
-	<cmath>
 	"main.h"
 
 1418002094 /home/gearoid/Documents/Code Blocks Projects/Karma/main.h
@@ -36,10 +25,12 @@
 
 1418066075 /home/gearoid/Documents/Code Blocks Projects/Karma/Game.h
 
-1419316962 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/ScreenManager.cpp
+1419473799 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/ScreenManager.cpp
 	"ScreenManager.h"
 
-1418238504 /home/gearoid/Documents/Code Blocks Projects/Karma/include/ScreenManager.h
+1419473723 /home/gearoid/Documents/Code Blocks Projects/Karma/include/ScreenManager.h
+	<allegro.h>
+	<allegro_image.h>
 	<iostream>
 	<string>
 	"GameScreen.h"
@@ -47,97 +38,100 @@
 	"TitleScreen.h"
 	"FadeAnimation.h"
 	"GameplayScreen.h"
-	<allegro.h>
-	<allegro_image.h>
 
-1419316215 /home/gearoid/Documents/Code Blocks Projects/Karma/include/GameScreen.h
+1419474052 /home/gearoid/Documents/Code Blocks Projects/Karma/include/GameScreen.h
 	<allegro.h>
-	"InputManager.h"
+	<allegro_primitives.h>
 	<iostream>
 	<fstream>
 	<sstream>
+	"InputManager.h"
+	"FadeAnimation.h"
 
-1419303791 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/GameScreen.cpp
+1419473891 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/GameScreen.cpp
 	"GameScreen.h"
 
-1418238347 /home/gearoid/Documents/Code Blocks Projects/Karma/include/SplashScreen.h
+1419474695 /home/gearoid/Documents/Code Blocks Projects/Karma/include/SplashScreen.h
 	<allegro_font.h>
 	<allegro_ttf.h>
+	"GameScreen.h"
 	"ScreenManager.h"
 	"FadeAnimation.h"
 
-1419284203 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/SplashScreen.cpp
+1419474736 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/SplashScreen.cpp
 	"SplashScreen.h"
-	"ScreenManager.h"
 
-1419288951 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/InputManager.cpp
+1419474858 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/InputManager.cpp
 	"InputManager.h"
 
-1419288837 /home/gearoid/Documents/Code Blocks Projects/Karma/include/InputManager.h
+1419474764 /home/gearoid/Documents/Code Blocks Projects/Karma/include/InputManager.h
 	<allegro.h>
 	<keyboard.h>
 	<vector>
 
-1418238301 /home/gearoid/Documents/Code Blocks Projects/Karma/include/TitleScreen.h
+1419474825 /home/gearoid/Documents/Code Blocks Projects/Karma/include/TitleScreen.h
 	<allegro_font.h>
 	<allegro_ttf.h>
 	"ScreenManager.h"
+	"GameScreen.h"
 
-1419284203 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/TitleScreen.cpp
+1419474793 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/TitleScreen.cpp
 	"TitleScreen.h"
 
-1418237418 /home/gearoid/Documents/Code Blocks Projects/Karma/include/FadeAnimation.h
+1419474980 /home/gearoid/Documents/Code Blocks Projects/Karma/include/FadeAnimation.h
 	<Animation.h>
 	<iostream>
 
-1419316040 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Animation.h
+1419474927 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Animation.h
+	<iostream>
 	<string>
 	<allegro.h>
 	<allegro_image.h>
 	<allegro_font.h>
 	"InputManager.h"
-	<iostream>
 
-1419298310 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Animation.cpp
+1419475498 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Animation.cpp
 	"Animation.h"
 
-1418238435 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/FadeAnimation.cpp
+1419475021 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/FadeAnimation.cpp
 	"FadeAnimation.h"
 
-1419324071 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/EndScreen.cpp
+1419475151 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/EndScreen.cpp
 	"EndScreen.h"
 
-1418198316 /home/gearoid/Documents/Code Blocks Projects/Karma/include/EndScreen.h
+1419475824 /home/gearoid/Documents/Code Blocks Projects/Karma/include/EndScreen.h
 	<allegro_font.h>
 	<allegro_ttf.h>
 	"ScreenManager.h"
+	"GameScreen.h"
 
-1419314386 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Player.cpp
+1419475320 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Player.cpp
 	"Player.h"
 
-1419311602 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Player.h
+1419475210 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Player.h
 	<allegro.h>
 	<iostream>
 	"InputManager.h"
-	"SpriteSheetAnimation.h"
-
-1419330771 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/GameplayScreen.cpp
-	"GameplayScreen.h"
-
-1419330737 /home/gearoid/Documents/Code Blocks Projects/Karma/include/GameplayScreen.h
-	<sstream>
-	"GameScreen.h"
-	"Player.h"
-	"Entity.h"
-	"EntityManager.h"
-
-1418245478 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/SpriteSheetAnimation.cpp
-	"SpriteSheetAnimation.h"
-
-1418241929 /home/gearoid/Documents/Code Blocks Projects/Karma/include/SpriteSheetAnimation.h
 	"Animation.h"
 
-1419331330 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Entity.h
+1419474649 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/GameplayScreen.cpp
+	"GameplayScreen.h"
+
+1419474150 /home/gearoid/Documents/Code Blocks Projects/Karma/include/GameplayScreen.h
+	<sstream>
+	"GameScreen.h"
+	"Entity.h"
+	"EntityManager.h"
+	"ScreenManager.h"
+	"EndScreen.h"
+
+1419475407 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/SpriteSheetAnimation.cpp
+	"SpriteSheetAnimation.h"
+
+1419475352 /home/gearoid/Documents/Code Blocks Projects/Karma/include/SpriteSheetAnimation.h
+	"Animation.h"
+
+1419475615 /home/gearoid/Documents/Code Blocks Projects/Karma/include/Entity.h
 	<vector>
 	<string>
 	<allegro.h>
@@ -145,16 +139,20 @@
 	<sstream>
 	<iostream>
 	<fstream>
+	<cstring>
 	"InputManager.h"
 	"Animation.h"
+	"SpriteSheetAnimation.h"
+	"Player.h"
 
-1419330595 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Entity.cpp
+1419476185 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/Entity.cpp
 	"Entity.h"
 
-1419330544 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/EntityManager.cpp
+1419475811 source:/home/gearoid/Documents/Code Blocks Projects/Karma/src/EntityManager.cpp
 	"EntityManager.h"
 
-1419330341 /home/gearoid/Documents/Code Blocks Projects/Karma/include/EntityManager.h
+1419475759 /home/gearoid/Documents/Code Blocks Projects/Karma/include/EntityManager.h
 	"Entity.h"
+	"Player.h"
 	<vector>
 

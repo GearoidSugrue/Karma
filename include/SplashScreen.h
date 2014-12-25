@@ -4,7 +4,7 @@
 #include <allegro_font.h>
 #include <allegro_ttf.h>
 
-//#include "GameScreen.h"
+#include "GameScreen.h"
 #include "ScreenManager.h"
 #include "FadeAnimation.h"
 
@@ -22,10 +22,7 @@ class SplashScreen : public GameScreen
     protected:
     private:
         ALLEGRO_FONT *font;
-
-        std::vector<FadeAnimation*> fade;//Delete this???
         FadeAnimation fanimation;
-
 };
 
 #endif // SPLASHSCREEN_H

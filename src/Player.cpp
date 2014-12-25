@@ -13,22 +13,19 @@ Player::~Player()
 void Player::LoadContent()
 {
     playerImage = al_load_bitmap("PlayerImage.png");
-    //position[0] = 50 ;
-   // position[1] = 400;
     position.first = 50 ;
-    position.second = 350;
+    position.second = 440;
     vel.first = 0;
     vel.second = 0;
     moveSpeed = 5;
     jumpspeed = 15;
     cashAmount = 30;
     gravity = 1;
-    karmaLevel = 0 ;//change back to 10
-    direction = RIGHT;
+    karmaLevel = 3 ;
     activateGravity = true;
 
     playerAnimation.LoadContent(playerImage, "", position);
-
+    playerAnimation.NumberOfFrames() = std::pair<int, int>(7, 1);
     std::cout<<"creating Player..."<<std::endl;
 }
 
@@ -52,29 +49,11 @@ void Player::Update(ALLEGRO_EVENT ev, InputManager input)
 
     if(input.IsKeyDown(ALLEGRO_KEY_RIGHT))
     {
-        direction = RIGHT;
-        //position.first += moveSpeed;
         vel.first = moveSpeed;
     }
     else if(input.IsKeyDown(ALLEGRO_KEY_LEFT))
     {
-        direction = LEFT;
-        //position.first -= moveSpeed;
-
         vel.first = -moveSpeed;
-    }
-    else if(input.IsKeyDown(ALLEGRO_KEY_UP) && !activateGravity)
-    {
-        direction = UP;
-        vel.second = -jumpspeed;
-        activateGravity = true;
-        //put jump code here
-    }
-    else if(input.IsKeyDown(ALLEGRO_KEY_SPACE))
-    {
-       //do action here...interact
-
-
     }
     else
     {
@@ -82,41 +61,39 @@ void Player::Update(ALLEGRO_EVENT ev, InputManager input)
         playerAnimation.IsActive() = false;
     }
 
-        if(activateGravity)
-        {
-            vel.second = vel.second + gravity;
-        }
-        else
-        {
-            vel.second = 0;
-        }
+    if(input.IsKeyDown(ALLEGRO_KEY_UP) && !activateGravity)
+    {
+        vel.second = -jumpspeed;
+        activateGravity = true;
+    }
 
-        position.first = position.first + vel.first;
-        position.second = position.second + vel.second;
-        if(position.second >= 460)
-        {
-            position.second = 460;
-            activateGravity = false;
-        }
-        if(position.first < 0)
-        {
-            position.first = 0;
-        }
-        playerAnimation.Position() = position;
-        playerAnimation.CurrentFrame() = std::pair<int, int>(karmaLevel, 0);
+    if(activateGravity)
+    {
+        vel.second = vel.second + gravity;
+    }
+    else
+    {
+        vel.second = 0;
+    }
 
-    //spriteAnimation.Update(playerAnimation);//not needed for the player character
+    position.first = position.first + vel.first;
+    position.second = position.second + vel.second;
+    if(position.second >= 440)
+    {
+        position.second = 440;
+        activateGravity = false;
+    }
 
-
+    if(position.first < 0)
+    {
+        position.first = 0;
+    }
+    playerAnimation.Position() = position;
+    playerAnimation.CurrentFrame() = std::pair<int, int>(karmaLevel, 0);
 }
 void Player::Draw(ALLEGRO_DISPLAY *display)
 {
-    //spriteAnimation.
-    playerAnimation.Draw(display);
-
-
-    //al_draw_bitmap_region(playerImage, karmaLevel * 80, 0, 80, 120, position[0], position[1], NULL);
-    //al_draw_bitmap_region(cat, sourceX, 0, 75, 75, 530, 190, NULL);
+    al_draw_bitmap_region(playerImage, karmaLevel * 80, 0, 80, al_get_bitmap_height(playerImage), position.first, position.second, NULL);
 }
 
 void Player::SetKarmaLevel(int newLevel)
@@ -143,5 +120,3 @@ std::pair<float, float> Player::GetPosition()
 {
     return position;
 }
-
-

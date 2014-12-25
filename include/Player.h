@@ -1,22 +1,22 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include<allegro.h>//Entity class has all of this already
+#include<allegro.h>
 #include<iostream>
 
 #include"InputManager.h"
-//#include"Entity.h"
-#include"SpriteSheetAnimation.h"
+#include"Animation.h"
 
-class Player //: public Entity
+
+class Player
 {
     public:
         Player();
         virtual ~Player();
 
-        void LoadContent();//const char * entityName, std::pair<float, float> pos);
+        void LoadContent();
         void UnloadContent();
-        void Update(ALLEGRO_EVENT ev, InputManager input);//, InputManager input);
+        void Update(ALLEGRO_EVENT ev, InputManager input);
         void Draw(ALLEGRO_DISPLAY *display);
 
         void SetKarmaLevel(int newLevel);
@@ -28,7 +28,6 @@ class Player //: public Entity
     protected:
     private:
         ALLEGRO_BITMAP *playerImage;
-        //float position[2];
         std::pair<float, float> position;
         std::pair<float, float> vel;
         float moveSpeed;
@@ -36,14 +35,9 @@ class Player //: public Entity
         float gravity;
         int cashAmount;
         int karmaLevel;
-
         bool activateGravity;
 
-        enum Direction{DOWN, LEFT, RIGHT, UP};
-        Direction direction ;
-
         Animation playerAnimation;
-        //SpriteSheetAnimation spriteAnimation;// not needed
 };
 
 #endif // PLAYER_H

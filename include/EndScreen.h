@@ -5,6 +5,7 @@
 #include <allegro_ttf.h>
 
 #include "ScreenManager.h"
+#include "GameScreen.h"
 
 class EndScreen : public GameScreen
 {
@@ -16,7 +17,6 @@ class EndScreen : public GameScreen
         virtual void UnloadContent();
         virtual void Update(ALLEGRO_EVENT ev);
         virtual void Draw(ALLEGRO_DISPLAY *display);
-
 
     protected:
     private:

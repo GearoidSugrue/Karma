@@ -8,46 +8,57 @@
 #include <sstream>
 #include<iostream>
 #include <fstream>
+#include <cstring>
 
 #include"InputManager.h"
 #include"Animation.h"
-//#include"EntityManager.h"
+#include"SpriteSheetAnimation.h"
+#include"Player.h"
 
-class Entity //: public EntityManager
+class Entity
 {
     public:
         Entity();
         virtual ~Entity();
 
-        void LoadContent(const char* entityName);//,  std::pair<float, float> pos);//change this
+        void LoadContent(const char* entityN);
         void UnloadContent();
-        void Update(ALLEGRO_EVENT ev, InputManager inputManager);
-        void Draw(ALLEGRO_DISPLAY *display);//should these be virtual
+        void Update(ALLEGRO_EVENT ev, InputManager inputManager, Player* player);
+        void Draw(ALLEGRO_DISPLAY *display);
 
         void LoadEntity(const char *filename);
 
-        std::pair<float, float> pos, prevPosition, velocity;
-        Animation animation;
-        bool activateGravity;
-        //char *entityName;
+        std::pair<float, float> pos, velocity;
+        bool activateGravity, isActionComplete, isNear;
+
         enum EntityType {CHARACTER, OBJECT};
         EntityType type;
 
-    protected:
-
-    ALLEGRO_BITMAP *image;
-    //float gravity;
-
-    private:
-        std::string textBoxText ;
-        std::string dialogText ;
-        std::string yesText;
-        std::string noText;
-        std::string imageName;
         int sizeWidth;
         int sizeHeight;
-        ALLEGRO_COLOR color;
 
+
+        const char * entityName;
+        char * textBoxText ;
+        char * dialogText ;
+        char * yesText;
+        char * noText;
+
+        std::string imageName;
+        ALLEGRO_COLOR color;
+        SpriteSheetAnimation spriteAni;
+        Animation animation;
+
+    protected:
+
+    private:
+
+        void YesAction();
+        void NoAction();
+        ALLEGRO_BITMAP *image;
+
+        int frame;
+        int timer;
 };
 
 #endif // ENTITY_H

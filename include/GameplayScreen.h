@@ -1,12 +1,12 @@
 #ifndef GAMEPLAYSCREEN_H
 #define GAMEPLAYSCREEN_H
 
-//#include<allegro.h>
 #include <sstream>
-#include "GameScreen.h"//is this needed???
-#include "Player.h"
+#include "GameScreen.h"
 #include "Entity.h"
 #include "EntityManager.h"
+#include "ScreenManager.h"
+#include "EndScreen.h"
 
 class GameplayScreen : public GameScreen
 {
@@ -19,14 +19,11 @@ class GameplayScreen : public GameScreen
         void Update(ALLEGRO_EVENT ev);
         void Draw(ALLEGRO_DISPLAY *display);
 
-
     protected:
 
     private:
         Player player;
         EntityManager entityMan;
-
-        //Entity cat_girl;
 
         void DrawMap();
         void LoadMap(const char *filename);
@@ -34,27 +31,21 @@ class GameplayScreen : public GameScreen
         void DrawHUD(ALLEGRO_DISPLAY *display);
         int DrawWrappedText(ALLEGRO_FONT *af,char atext[1024],ALLEGRO_COLOR fc, int x1, int y1, int width, int flags,bool draw);
 
-        bool IsNearEntity(float entX, float entY, int entWidth, int entHeight);
+        bool IsNearEntity(Entity *ent);
 
         void EntitiesInteraction();
-        void EntitiesDraw();
 
         std::vector< std::vector<int> > worldMap;
-        //std::vector<Entity*> entities;
 
         ALLEGRO_FONT *font;
         ALLEGRO_BITMAP *tileSpriteSheet;
         const float BlockSize = 70;
         const int ScreenWidth = 1190 ;
         const int ScreenHeight = 700 ;
-
-        //std::pair<float, float> cameraPosition;
-        char *dialogText;
+        bool isEndGame;
+        char *HudText;
         ALLEGRO_TRANSFORM camera ;
-
-
-
-
+        ALLEGRO_COLOR fontColor;
 };
 
 #endif // GAMEPLAYSCREEN_H

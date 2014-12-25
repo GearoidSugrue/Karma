@@ -1,0 +1,16 @@
+[Position]
+41 6
+[Type]
+1
+[Color]
+150 150 150
+[ImageName]
+warning.png
+[Size]
+120 140
+[TextBox]
+Looks like construction works.
+[Text]
+*Press SPACE to draw graffiti*
+[No]
+*So much graffiti!!*

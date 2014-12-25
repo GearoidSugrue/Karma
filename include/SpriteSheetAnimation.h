@@ -14,7 +14,6 @@ class SpriteSheetAnimation : public Animation
     protected:
     private:
         int frameCounter, switchFrame;
-
 };
 
 #endif // SPRITESHEETANIMATION_H

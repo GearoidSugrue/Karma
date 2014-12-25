@@ -1,14 +1,12 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-
+#include<iostream>
 #include<string>
 #include<allegro.h>
 #include<allegro_image.h>
 #include<allegro_font.h>
 #include"InputManager.h"
-
-#include<iostream>
 
 class Animation
 {
@@ -16,16 +14,13 @@ class Animation
         Animation();
         virtual ~Animation();
 
-        void LoadContent(ALLEGRO_BITMAP *image, std::string text, std::pair<float, float> pos);//float position[2]);
+        void LoadContent(ALLEGRO_BITMAP *image, std::string text, std::pair<float, float> pos);
         void UnloadContent();
         virtual void Update(Animation &ani);
-        void Draw(ALLEGRO_DISPLAY *display);//May be virtual...
-        //void SetAlpha(float value);//delete
+        void Draw(ALLEGRO_DISPLAY *display);
 
         float &GetSetAlpha();
         bool &IsActive();
-
-//std::pair<int, int> &Animation::NumberOfFrames()
 
         std::pair<int, int> &NumberOfFrames();
         std::pair<int, int> &CurrentFrame();
@@ -33,27 +28,20 @@ class Animation
 
         std::pair<float, float> &Position();
 
-        ALLEGRO_BITMAP*& Image();//sprite???
-        ALLEGRO_BITMAP*& SourceRect();//sprite???
-        //void SetIsActive(bool val);//delete
+        ALLEGRO_BITMAP*& Image();
+        ALLEGRO_BITMAP*& SourceRect();
 
         std::pair<float, float> position;
-
     protected:
-
-
     private:
         ALLEGRO_FONT *font;
         ALLEGRO_BITMAP *image, *sourceRect;
         std::string text;
-        //std::pair<float, float> position;
-        //float position[2];
         float alpha;
         bool isActive;
 
         std::pair<int, int> numberOfFrames;
         std::pair<int, int> currentFrame;
-
 };
 
 #endif // ANIMATION_H

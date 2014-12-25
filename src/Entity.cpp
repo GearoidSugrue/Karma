@@ -10,42 +10,25 @@ Entity::~Entity()
     //dtor
 }
 
-void Entity::LoadContent(const char* entityName)//,  std::pair<float, float> p )//std::vector<std::string> attributes, std::vector<std::string> contents);//change this
+void Entity::LoadContent(const char* entityN)
 {
-    //position = pos;
-    //entityName = name;
+    entityName = entityN;
     LoadEntity(entityName);
     pos.first = pos.first * 70 ;
     pos.second  = pos.second * 70;
+    isNear = false;
+    isActionComplete = false;
 
     if(type == OBJECT && imageName != "")
     {
         image = al_load_bitmap(imageName.c_str());
         animation.LoadContent(image, "", pos);
     }
-
-    //image = al_load_bitmap(ImageName.c_str());
-
-
     std::cout<<"creating Entity..."<< entityName <<std::endl;
-
-    std::cout<<"TextBox Text: "<< textBoxText <<std::endl;
-    std::cout<<"Dialog Text: "<< dialogText <<std::endl;
-    std::cout<<"Type: "<< type <<std::endl;
-    //std::cout<<"Color: "<< r << " " << g << " " << b <<std::endl;
-    std::cout<<"Image Name Text: "<< imageName <<std::endl;
-    std::cout<<"Yes Text: "<< yesText <<std::endl;
-    std::cout<<"No Text: "<< noText <<std::endl;
-    std::cout<<"X: "<< pos.first <<std::endl;
-    std::cout<<"Y: "<< pos.second <<std::endl;
-    std::cout<<"SizeW: "<<  sizeWidth <<std::endl;
-    std::cout<<"SizeH: "<<  sizeHeight <<std::endl;
 }
 
 void Entity::UnloadContent()
 {
-    //al_destroy_bitmap(image);//may need to delete/change
-    //animation.UnloadContent();
     if(type == OBJECT)
     {
         al_destroy_bitmap(image);
@@ -58,29 +41,127 @@ void Entity::UnloadContent()
     imageName = "" ;
     sizeWidth = NULL ;
     sizeHeight = NULL ;
-    //al_destroy_color(color);
-    //std::cout<<"destroying Entity..."<< entityName <<std::endl;
-
+    activateGravity = false;
+    frame = 0;
+    timer = 0;
 }
 
-void Entity::Update(ALLEGRO_EVENT ev, InputManager inputManager)
+void Entity::Update(ALLEGRO_EVENT ev, InputManager input,Player* player)
 {
-    prevPosition = pos;
+    input.Update();
 
+    if(isNear && !isActionComplete)
+    {
+        if(input.IsKeyDown(ALLEGRO_KEY_SPACE))
+        {
+
+            if(std::strcmp(entityName, "entity_lotto.txt") == 0)
+            {
+                NoAction();
+                int money = player->GetMoney();
+                if(money>0)
+                {
+                    player->SetMoney(money-5);
+                }
+            }
+            else if(std::strcmp(entityName, "entity_wallet_guy.txt") == 0)
+            {
+                player->SetKarmaLevel(player->GetKarmaLevel()-1);
+                YesAction();
+
+            }
+            else if(std::strcmp(entityName, "entity_warning_sign.txt") == 0)
+            {
+                player->SetKarmaLevel(player->GetKarmaLevel()+1);
+                NoAction();
+
+            }
+        }
+        else if(input.IsKeyDown(ALLEGRO_KEY_UP))
+        {
+            if(std::strcmp(entityName, "entity_cat_girl.txt") == 0)
+            {
+                player->SetKarmaLevel(player->GetKarmaLevel()-1);
+                YesAction();
+            }
+            if(std::strcmp(entityName, "entity_cat.txt") == 0)
+            {
+                pos.second += 140;
+                YesAction();
+            }
+        }
+        else if(input.IsKeyDown(ALLEGRO_KEY_ENTER))
+        {
+            if(std::strcmp(entityName, "entity_wallet_guy.txt") == 0)
+            {
+                player->SetMoney(60);
+                player->SetKarmaLevel(player->GetKarmaLevel()+1);
+                NoAction();
+            }
+        }
+
+        if(std::strcmp(entityName, "entity_blocks.txt") == 0)
+        {
+            int posY = animation.position.second;
+
+            if(!isActionComplete && player->GetPosition().first >  (animation.position.first + 100)  )
+            {
+                if(animation.position.second <= 420)
+                {
+                    animation.position.second = animation.position.second + 5;
+                }
+            }
+
+            if(animation.position.second >= 420 && !isActionComplete)
+            {
+                isActionComplete = true;
+            }
+        }
+    }
+}
+
+void Entity::YesAction()
+{
+        dialogText = yesText;
+        isActionComplete = true;
+}
+
+void Entity::NoAction()
+{
+        dialogText = noText;
+        isActionComplete = true;
 }
 
 void Entity::Draw(ALLEGRO_DISPLAY *display)
 {
-    //animation.Draw(display) ;
-    //al_init_primitives_addon;
+    timer++;
+    if(timer >= 60)
+    {
+       timer = 0;
+    }
     if(type == OBJECT)
     {
-        animation.Draw(display);
+        if(std::strcmp(entityName, "entity_cat.txt") == 0)
+        {
+            if(timer % 7 == 0)
+            {
+
+                int width = al_get_bitmap_width(image);
+                frame +=  width / 8;
+                    if(frame >= width)
+                    {
+                        frame = 0 ;
+                    }
+            }
+            al_draw_bitmap_region(image, frame, 0, 75, 75, pos.first, pos.second, NULL);
+        }
+        else
+            animation.Draw(display);
     }
     else if (type == CHARACTER)
     {
         al_draw_filled_rectangle(pos.first-sizeWidth, pos.second-sizeHeight, pos.first, pos.second, color) ;
-    }//al_map_rgb(44, 117, 255)
+    }
 }
 
 void Entity::LoadEntity(const char *filename)
@@ -114,12 +195,12 @@ void Entity::LoadEntity(const char *filename)
             else if(line.find("[ImageName]") != std::string::npos)
             {
                 state = IMAGENAME;
-                continue; //skips the rest of the loop and goes back to the top of the loop.
+                continue;
             }
             else if(line.find("[Size]") != std::string::npos)
             {
                 state = SIZE;
-                continue; //skips the rest of the loop and goes back to the top of the loop.
+                continue;
             }
             else if (line.find("[TextBox]") != std::string::npos)
             {
@@ -159,7 +240,6 @@ void Entity::LoadEntity(const char *filename)
                         pos.second = atoi(value.c_str());
                     }
                 }
-                    //ileSpriteSheet = al_load_bitmap(line.c_str());
                 break;
             case TYPE:
                 if(line.length() > 0)
@@ -197,10 +277,8 @@ void Entity::LoadEntity(const char *filename)
                     }
                     color = al_map_rgb(r,g,b);
                 }
-                    //ileSpriteSheet = al_load_bitmap(line.c_str());
                 break;
             case IMAGENAME:
-                //std::stringstream str (line);
                 if(line.length() > 0)
                     imageName = line;
 
@@ -223,54 +301,47 @@ void Entity::LoadEntity(const char *filename)
 
                 break;
             case TEXTBOX:
-                //std::stringstream str (line);
-                //std::vector<int> tempVector;
                 if(line.length() > 0)
-                    textBoxText = line;//.c_str();
-                //while(!str.eof())
-                //{
-                    //std::getline(str, value, ' ');
-                    //if(value.length() > 0)
-                        //tempVector.push_back(atoi(value.c_str()));
-                //}
-                //worldMap.push_back(tempVector);
+                {
+                    std::string str2 = line;
+                    textBoxText  = new char[str2.size() + 1];
+                    std::copy(str2.begin(), str2.end(), textBoxText);
+                    textBoxText[str2.size()] = '\0';
+                }
                 break;
             case TEXT:
-                //std::stringstream str (line);
-                //std::vector<int> tempVector;
                 if(line.length() > 0)
-                    dialogText = line;//.c_str();
-                //while(!str.eof())
-                //{
-                    //std::getline(str, value, ' ');
-                    //if(value.length() > 0)
-                        //tempVector.push_back(atoi(value.c_str()));
-                //}
-                //worldMap.push_back(tempVector);
+                {
+                    std::string str2 = line;
+                    dialogText  = new char[str2.size() + 1];
+                    std::copy(str2.begin(), str2.end(), dialogText);
+                    dialogText[str2.size()] = '\0';
+                }
                 break;
             case YES:
-                //std::stringstream str (line);
                 if(line.length() > 0)
-                    yesText = line;
+                {
+                    std::string str2 = line;
+                    yesText  = new char[str2.size() + 1];
+                    std::copy(str2.begin(), str2.end(), yesText);
+                    yesText[str2.size()] = '\0';
+                }
 
                 break;
             case NO:
-                //std::stringstream str (line);
                 if(line.length() > 0)
-                    noText = line;
-
+                {
+                 std::string str2 = line;
+                    noText  = new char[str2.size() + 1];
+                    std::copy(str2.begin(), str2.end(), noText);
+                    noText[str2.size()] = '\0';
+                }
                 break;
             }
-
-        //mapSizeY = loadCounterY ;
         }
-       // return ary ;
     }
     else
     {
-
         std::cout<<"Failed to open entity file."<<std::endl;
     }
 }
-
-
