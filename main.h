@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <allegro.h>
 
+//#include "include/Game.h"
+
 class main {
 
     private:
@@ -15,6 +17,7 @@ class main {
 
 
 };
+
 
 
 #endif // MAIN_H_INCLUDED

@@ -1,0 +1,13 @@
+[Position]
+44 4
+[Type]
+1
+[ImageName]
+blocks.png
+[Size]
+269 140
+[TextBox]
+NULL
+[Text]
+NULL
+

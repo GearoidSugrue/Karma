@@ -1,0 +1,16 @@
+[Position]
+26 5
+[Type]
+1
+[Color]
+150 150 150
+[ImageName]
+lottoImage.png
+[Size]
+279 210
+[TextBox]
+Maybe you should play the lotto.
+[Text]
+*SPACE to play*
+[No]
+You didn't win!

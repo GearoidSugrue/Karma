@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="/usr/local/lib/liballegro_main.so" />
@@ -36,6 +37,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -46,10 +48,33 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Animation.h" />
+		<Unit filename="include/EndScreen.h" />
+		<Unit filename="include/Entity.h" />
+		<Unit filename="include/EntityManager.h" />
+		<Unit filename="include/FadeAnimation.h" />
+		<Unit filename="include/GameScreen.h" />
+		<Unit filename="include/GameplayScreen.h" />
+		<Unit filename="include/InputManager.h" />
+		<Unit filename="include/Player.h" />
+		<Unit filename="include/ScreenManager.h" />
+		<Unit filename="include/SplashScreen.h" />
+		<Unit filename="include/SpriteSheetAnimation.h" />
+		<Unit filename="include/TitleScreen.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="main.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="src/Animation.cpp" />
+		<Unit filename="src/EndScreen.cpp" />
+		<Unit filename="src/Entity.cpp" />
+		<Unit filename="src/EntityManager.cpp" />
+		<Unit filename="src/FadeAnimation.cpp" />
+		<Unit filename="src/GameScreen.cpp" />
+		<Unit filename="src/GameplayScreen.cpp" />
+		<Unit filename="src/InputManager.cpp" />
+		<Unit filename="src/Player.cpp" />
+		<Unit filename="src/ScreenManager.cpp" />
+		<Unit filename="src/SplashScreen.cpp" />
+		<Unit filename="src/SpriteSheetAnimation.cpp" />
+		<Unit filename="src/TitleScreen.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
